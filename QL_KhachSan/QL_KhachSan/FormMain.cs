@@ -1,7 +1,12 @@
 using QL_KhachSan.DangNhap;
+using QL_KhachSan.DichVu;
+using QL_KhachSan.ChiTietTienNghi;
+using QL_KhachSan.KhachHang;
 using QL_KhachSan.LoaiPhong;
+using QL_KhachSan.NhanVien;
 using QL_KhachSan.Phong;
 using QL_KhachSan.SoDoPhong;
+using QL_KhachSan.TienNghi;
 
 namespace QL_KhachSan;
 
@@ -113,17 +118,18 @@ public partial class FormMain : Form
             account.Width = Math.Min(340, Math.Max(240, header.ClientSize.Width - 16));
         };
 
-        var side = new Panel { Dock = DockStyle.Left, Width = 230, BackColor = HotelUi.DarkGreen, AutoScroll = true };
+        var side = new Panel { Dock = DockStyle.Left, Width = 275, BackColor = HotelUi.DarkGreen, AutoScroll = true };
         AddMenu(side, "Trang chủ", "MenuTrangChu", ShowHome);
         AddMenu(side, "Sơ đồ phòng", "MenuSoDoPhong", () => OpenChild(new FormSoDoPhong()));
         AddMenu(side, "Phòng", "MenuPhong", () => OpenChild(new FormDanhSachPhong()));
         AddMenu(side, "Loại phòng", "MenuLoaiPhong", () => OpenChild(new FormDanhSachLoaiPhong()));
         AddMenu(side, "Danh sách đặt phòng", "MenuDatPhong", () => HienThiDangPhatTrien("Danh sách đặt phòng"));
-        AddMenu(side, "Danh sách dịch vụ", "MenuQuanLyDichVu", () => HienThiDangPhatTrien("Danh sách dịch vụ"));
+        AddMenu(side, "Danh sách dịch vụ", "MenuQuanLyDichVu", () => OpenChild(new FormDanhSachDichVu()));
         AddMenu(side, "Danh sách hóa đơn", "MenuDanhSachHoaDon", () => HienThiDangPhatTrien("Danh sách hóa đơn"));
-        AddMenu(side, "Danh sách khách hàng", "MenuQuanLyKhachHang", () => HienThiDangPhatTrien("Danh sách khách hàng"));
-        AddMenu(side, "Danh sách nhân viên", "MenuQuanLyNhanVien", () => HienThiDangPhatTrien("Danh sách nhân viên"));
-        AddMenu(side, "Danh sách tiện nghi", "MenuTienNghi", () => HienThiDangPhatTrien("Danh sách tiện nghi"));
+        AddMenu(side, "Danh sách khách hàng", "MenuQuanLyKhachHang", () => OpenChild(new FormDanhSachKhachHang()));
+        AddMenu(side, "Danh sách nhân viên", "MenuQuanLyNhanVien", () => OpenChild(new FormDanhSachNhanVien()));
+        AddMenu(side, "Danh sách tiện nghi", "MenuTienNghi", () => OpenChild(new FormDanhSachTienNghi()));
+        AddMenu(side, "Chi tiết tiện nghi", "MenuChiTietTienNghi", () => OpenChild(new FormDanhSachChiTietTienNghi()));
         AddMenu(side, "Danh sách tài khoản", "MenuQuanLyTaiKhoan", () => HienThiDangPhatTrien("Danh sách tài khoản"));
         AddMenu(side, "Thống kê", "MenuThongKe", () => HienThiDangPhatTrien("Thống kê"));
 
@@ -138,7 +144,7 @@ public partial class FormMain : Form
     {
         var button = new Button
         {
-            Text = "   " + caption,
+            Text = caption,
             Image = AppImages.Get(imageName),
             ImageAlign = ContentAlignment.MiddleLeft,
             TextAlign = ContentAlignment.MiddleLeft,
@@ -149,7 +155,7 @@ public partial class FormMain : Form
             BackColor = HotelUi.DarkGreen,
             ForeColor = Color.White,
             Font = new Font("Segoe UI", 10.5F),
-            Padding = new Padding(14, 0, 4, 0),
+            Padding = new Padding(12, 0, 8, 0),
             Cursor = Cursors.Hand
         };
         button.FlatAppearance.BorderSize = 0;

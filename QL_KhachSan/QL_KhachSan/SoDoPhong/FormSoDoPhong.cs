@@ -65,9 +65,9 @@ public sealed class FormSoDoPhong : Form
         book.Click += (_, _) =>
         {
             var selectedRoom = MaPhongDangChon();
-            MessageBox.Show("Chức năng đặt phòng đang được xây dựng."
-                + (selectedRoom is not null ? Environment.NewLine + "Phòng đang chọn: " + selectedRoom : string.Empty),
-                "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            using var form = new FormDatPhong(selectedRoom);
+            if (form.ShowDialog(this) == DialogResult.OK)
+                TaiLaiDanhSach();
         };
         bottom.Controls.Add(book);
         page.Controls.Add(bottom, 0, 3);

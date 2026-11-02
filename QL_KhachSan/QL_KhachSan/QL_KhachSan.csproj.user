@@ -1,7 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Compile Update="ChiTietTienNghi\FormDanhSachChiTietTienNghi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ChiTietTienNghi\FormSuaChiTietTienNghi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ChiTietTienNghi\FormThemChiTietTienNghi.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="DangNhap\FormDangNhap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="DichVu\FormDanhSachDichVu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="DichVu\FormSuaDichVu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="DichVu\FormThemDichVu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="DichVu\Lab2ManagementForms.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="FormMain.cs">
@@ -10,6 +31,15 @@
     <Compile Update="FormTrangChu.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="KhachHang\FormDanhSachKhachHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KhachHang\FormSuaKhachHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KhachHang\FormThemKhachHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="LoaiPhong\FormDanhSachLoaiPhong.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -17,6 +47,15 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="LoaiPhong\FormThemLoaiPhong.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="NhanVien\FormDanhSachNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="NhanVien\FormSuaNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="NhanVien\FormThemNhanVien.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Phong\FormDanhSachPhong.cs">
@@ -28,7 +67,19 @@
     <Compile Update="Phong\FormThemPhong.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="SoDoPhong\FormDatPhong.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="SoDoPhong\FormSoDoPhong.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="TienNghi\FormDanhSachTienNghi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="TienNghi\FormSuaTienNghi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="TienNghi\FormThemTienNghi.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

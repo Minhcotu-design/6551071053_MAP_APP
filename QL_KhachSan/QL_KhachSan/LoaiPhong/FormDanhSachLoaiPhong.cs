@@ -1,5 +1,6 @@
 using ClosedXML.Excel;
 using Microsoft.EntityFrameworkCore;
+using QL_KhachSan.ChiTietTienNghi;
 using QL_KhachSan.Models;
 
 namespace QL_KhachSan.LoaiPhong;
@@ -115,7 +116,6 @@ public sealed class FormDanhSachLoaiPhong : Form
             return;
         var row = _grid.Rows[e.RowIndex];
         var ma = row.Cells["MaLPH"].Value?.ToString();
-        var ten = row.Cells["TenLPH"].Value?.ToString();
         if (string.IsNullOrWhiteSpace(ma))
             return;
         var column = _grid.Columns[e.ColumnIndex].Name;
@@ -127,8 +127,8 @@ public sealed class FormDanhSachLoaiPhong : Form
         }
         else if (column == "colTienNghi")
         {
-            MessageBox.Show($"Chức năng chi tiết tiện nghi của loại phòng {ten} ({ma}) đang được xây dựng.",
-                "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            using var form = new FormDanhSachChiTietTienNghi { MaLoaiPhong = ma };
+            form.ShowDialog(this);
         }
     }
 
