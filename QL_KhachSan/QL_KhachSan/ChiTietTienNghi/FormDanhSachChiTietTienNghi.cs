@@ -1,5 +1,6 @@
 using ClosedXML.Excel;
 using Microsoft.EntityFrameworkCore;
+using QL_KhachSan.DangNhap;
 using QL_KhachSan.Models;
 
 namespace QL_KhachSan.ChiTietTienNghi;
@@ -101,6 +102,7 @@ internal sealed class FormDanhSachChiTietTienNghi : Form
     }
     private void Remove()
     {
+        if (FormDangNhap.CapDoQuyen_DangNhap != 3) { MessageBox.Show("Chỉ Admin cấp 3 được xóa tiện nghi.", "Không đủ quyền", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
         if (Selected is not { } x) { MessageBox.Show("Hãy chọn dòng tiện nghi cần xóa.", "Chưa chọn dòng", MessageBoxButtons.OK, MessageBoxIcon.Information); return; } if (MessageBox.Show("Xóa tiện nghi khỏi loại phòng đã chọn?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
         try { using var db = new HotelManagementContext(); var item = db.Cttns.FirstOrDefault(t => t.MaLph == x.Type && t.MaTn == x.Amenity); if (item != null) { item.DaXoa = true; db.SaveChanges(); } LoadData(); }
         catch (Exception ex) { MessageBox.Show("Lỗi xóa chi tiết tiện nghi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error); }

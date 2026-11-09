@@ -7,6 +7,10 @@ using QL_KhachSan.NhanVien;
 using QL_KhachSan.Phong;
 using QL_KhachSan.SoDoPhong;
 using QL_KhachSan.TienNghi;
+using QL_KhachSan.PhieuThue;
+using QL_KhachSan.HoaDon;
+using QL_KhachSan.TaiKhoan;
+using QL_KhachSan.ThongKe;
 
 namespace QL_KhachSan;
 
@@ -14,6 +18,7 @@ public partial class FormMain : Form
 {
     private readonly Panel _panelMain = new();
     private readonly Label _lblTenNguoiDung = new();
+    private readonly Dictionary<string, Button> _menus = new(StringComparer.Ordinal);
 
     public FormMain()
     {
@@ -82,6 +87,7 @@ public partial class FormMain : Form
             if (formLogin.ShowDialog() == DialogResult.OK)
             {
                 _lblTenNguoiDung.Text = FormDangNhap.TenNV_DangNhap;
+                ApplyMenuPermissions();
                 ShowHome();
                 Show();
             }
@@ -119,19 +125,20 @@ public partial class FormMain : Form
         };
 
         var side = new Panel { Dock = DockStyle.Left, Width = 275, BackColor = HotelUi.DarkGreen, AutoScroll = true };
-        AddMenu(side, "Trang chủ", "MenuTrangChu", ShowHome);
-        AddMenu(side, "Sơ đồ phòng", "MenuSoDoPhong", () => OpenChild(new FormSoDoPhong()));
-        AddMenu(side, "Phòng", "MenuPhong", () => OpenChild(new FormDanhSachPhong()));
-        AddMenu(side, "Loại phòng", "MenuLoaiPhong", () => OpenChild(new FormDanhSachLoaiPhong()));
-        AddMenu(side, "Danh sách đặt phòng", "MenuDatPhong", () => HienThiDangPhatTrien("Danh sách đặt phòng"));
-        AddMenu(side, "Danh sách dịch vụ", "MenuQuanLyDichVu", () => OpenChild(new FormDanhSachDichVu()));
-        AddMenu(side, "Danh sách hóa đơn", "MenuDanhSachHoaDon", () => HienThiDangPhatTrien("Danh sách hóa đơn"));
-        AddMenu(side, "Danh sách khách hàng", "MenuQuanLyKhachHang", () => OpenChild(new FormDanhSachKhachHang()));
-        AddMenu(side, "Danh sách nhân viên", "MenuQuanLyNhanVien", () => OpenChild(new FormDanhSachNhanVien()));
-        AddMenu(side, "Danh sách tiện nghi", "MenuTienNghi", () => OpenChild(new FormDanhSachTienNghi()));
-        AddMenu(side, "Chi tiết tiện nghi", "MenuChiTietTienNghi", () => OpenChild(new FormDanhSachChiTietTienNghi()));
-        AddMenu(side, "Danh sách tài khoản", "MenuQuanLyTaiKhoan", () => HienThiDangPhatTrien("Danh sách tài khoản"));
-        AddMenu(side, "Thống kê", "MenuThongKe", () => HienThiDangPhatTrien("Thống kê"));
+        _menus["home"] = AddMenu(side, "Trang chủ", "MenuTrangChu", ShowHome);
+        _menus["booking"] = AddMenu(side, "Sơ đồ phòng", "MenuSoDoPhong", () => OpenChild(new FormSoDoPhong()));
+        _menus["rooms"] = AddMenu(side, "Phòng", "MenuPhong", () => OpenChild(new FormDanhSachPhong()));
+        _menus["roomTypes"] = AddMenu(side, "Loại phòng", "MenuLoaiPhong", () => OpenChild(new FormDanhSachLoaiPhong()));
+        _menus["rentals"] = AddMenu(side, "Danh sách đặt phòng", "MenuDatPhong", () => OpenChild(new FormDanhSachPhieuThue()));
+        _menus["services"] = AddMenu(side, "Danh sách dịch vụ", "MenuQuanLyDichVu", () => OpenChild(new FormDanhSachDichVu()));
+        _menus["invoices"] = AddMenu(side, "Danh sách hóa đơn", "MenuDanhSachHoaDon", () => OpenChild(new FormDanhSachHoaDon()));
+        _menus["guests"] = AddMenu(side, "Danh sách khách hàng", "MenuQuanLyKhachHang", () => OpenChild(new FormDanhSachKhachHang()));
+        _menus["staff"] = AddMenu(side, "Danh sách nhân viên", "MenuQuanLyNhanVien", () => OpenChild(new FormDanhSachNhanVien()));
+        _menus["amenities"] = AddMenu(side, "Danh sách tiện nghi", "MenuTienNghi", () => OpenChild(new FormDanhSachTienNghi()));
+        _menus["roomAmenities"] = AddMenu(side, "Chi tiết tiện nghi", "MenuChiTietTienNghi", () => OpenChild(new FormDanhSachChiTietTienNghi()));
+        _menus["accounts"] = AddMenu(side, "Danh sách tài khoản", "MenuQuanLyTaiKhoan", () => OpenChild(new FormDanhSachTaiKhoan()));
+        _menus["reports"] = AddMenu(side, "Thống kê", "MenuThongKe", () => OpenChild(new FormThongKe()));
+        ApplyMenuPermissions();
 
         _panelMain.Dock = DockStyle.Fill;
         _panelMain.Padding = new Padding(24);
@@ -140,7 +147,21 @@ public partial class FormMain : Form
         Controls.Add(header);
     }
 
-    private static void AddMenu(Control parent, string caption, string imageName, Action action)
+    private void ApplyMenuPermissions()
+    {
+        var isAdmin = FormDangNhap.CapDoQuyen_DangNhap == 3;
+        var job = FormDangNhap.ChucVu_DangNhap.Trim();
+        var isReception = !isAdmin && (job.Contains("tiếp tân", StringComparison.OrdinalIgnoreCase)
+            || job.Contains("lễ tân", StringComparison.OrdinalIgnoreCase));
+        foreach (var pair in _menus)
+        {
+            pair.Value.Visible = pair.Key != "accounts" || isAdmin;
+            if (isReception)
+                pair.Value.Visible = pair.Key is "home" or "booking";
+        }
+    }
+
+    private static Button AddMenu(Control parent, string caption, string imageName, Action action)
     {
         var button = new Button
         {
@@ -162,6 +183,7 @@ public partial class FormMain : Form
         button.Click += (_, _) => action();
         parent.Controls.Add(button);
         parent.Controls.SetChildIndex(button, parent.Controls.Count - 1);
+        return button;
     }
 
     private void ShowHome()

@@ -1,5 +1,6 @@
 using ClosedXML.Excel;
 using Microsoft.EntityFrameworkCore;
+using QL_KhachSan.DangNhap;
 using QL_KhachSan.Models;
 
 namespace QL_KhachSan.Phong;
@@ -128,6 +129,11 @@ public sealed class FormDanhSachPhong : Form
 
     private void XoaPhong(string maPhong)
     {
+        if (FormDangNhap.CapDoQuyen_DangNhap != 3)
+        {
+            MessageBox.Show("Chỉ Admin cấp 3 được xóa phòng.", "Không đủ quyền", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
         try
         {
             using var db = new HotelManagementContext();

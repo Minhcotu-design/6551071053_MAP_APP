@@ -6,6 +6,7 @@ using QL_KhachSan.KhachHang;
 using QL_KhachSan.NhanVien;
 using QL_KhachSan.Models;
 using QL_KhachSan.TienNghi;
+using QL_KhachSan.DangNhap;
 
 namespace QL_KhachSan.DichVu;
 
@@ -155,6 +156,11 @@ internal abstract class CatalogListForm : Form
 
     private void DeleteSelected()
     {
+        if (FormDangNhap.CapDoQuyen_DangNhap != 3)
+        {
+            MessageBox.Show("Chỉ Admin cấp 3 được xóa dữ liệu.", "Không đủ quyền", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
         var key = SelectedKey(); if (key is null) return;
         if (MessageBox.Show($"Bạn có chắc muốn xóa {key}?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
         try

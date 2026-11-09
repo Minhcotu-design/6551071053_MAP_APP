@@ -120,7 +120,7 @@ internal sealed class FormDatPhong : Form
             var staff = db.NhanViens.FirstOrDefault(x => x.MaNv == FormDangNhap.MaNV_DangNhap && x.DaXoa != true);
             if (staff is null) throw new InvalidOperationException("Không tìm thấy nhân viên đang đăng nhập để lập phiếu thuê.");
             var maPt = NextCode(db.PhieuThues.Select(x => x.MaPt).ToList(), "PT", 3, 5);
-            db.PhieuThues.Add(new PhieuThue { MaPt = maPt, NgPt = DateTime.Now, MaKh = customer.MaKh, MaNv = staff.MaNv, DaXoa = false }); db.SaveChanges();
+            db.PhieuThues.Add(new QL_KhachSan.Models.PhieuThue { MaPt = maPt, NgPt = DateTime.Now, MaKh = customer.MaKh, MaNv = staff.MaNv, DaXoa = false }); db.SaveChanges();
             var codes = db.Ctdps.Select(x => x.MaCtdp).ToList();
             foreach (DataGridViewRow selected in _selected.Rows)
             {
@@ -150,3 +150,4 @@ internal sealed class FormDatPhong : Form
         var result = prefix + number.ToString($"D{digits}", CultureInfo.InvariantCulture); return result.Length <= maxLength ? result : throw new InvalidOperationException("Mã sinh tự động vượt độ dài cho phép.");
     }
 }
+

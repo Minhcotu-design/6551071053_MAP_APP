@@ -7,6 +7,7 @@ public sealed class FormDangNhap : Form
 {
     public static string MaNV_DangNhap { get; private set; } = string.Empty;
     public static string TenNV_DangNhap { get; private set; } = string.Empty;
+    public static string ChucVu_DangNhap { get; private set; } = string.Empty;
     public static int CapDoQuyen_DangNhap { get; private set; }
 
     private readonly TextBox _txtTenDangNhap = HotelUi.TextBox();
@@ -110,6 +111,7 @@ public sealed class FormDangNhap : Form
                     t.MaNv,
                     t.CapDoQuyen,
                     TenNv = t.MaNvNavigation.TenNv,
+                    ChucVu = t.MaNvNavigation.ChucVu,
                     NhanVienDaXoa = t.MaNvNavigation.DaXoa
                 })
                 .FirstOrDefaultAsync();
@@ -128,6 +130,7 @@ public sealed class FormDangNhap : Form
 
             MaNV_DangNhap = user!.MaNv;
             TenNV_DangNhap = user.TenNv;
+            ChucVu_DangNhap = user.ChucVu ?? string.Empty;
             CapDoQuyen_DangNhap = user.CapDoQuyen;
             Tag = user.TenNv;
             DialogResult = DialogResult.OK;
